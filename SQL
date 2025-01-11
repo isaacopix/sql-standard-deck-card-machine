@@ -1,0 +1,63 @@
+--STANDARD DECK OF CARDS
+
+CREATE TABLE Rank (
+  rank_name VARCHAR(2) PRIMARY KEY
+);
+
+CREATE TABLE Suit (
+  suit_name VARCHAR(8) PRIMARY KEY
+);
+
+CREATE TABLE Card (
+  card_id smallint PRIMARY KEY,
+  rank_name VARCHAR(2),
+  suit_name VARCHAR(8)
+);
+
+
+ALTER TABLE Card
+ADD CONSTRAINT fk_Card_Rank FOREIGN KEY (rank_name)
+REFERENCES Rank (rank_name)
+ON UPDATE CASCADE
+ON DELETE CASCADE;
+
+ALTER TABLE Card
+ADD CONSTRAINT fk_Card_Suit FOREIGN KEY (suit_name)
+REFERENCES Suit (suit_name)
+ON UPDATE CASCADE
+ON DELETE CASCADE;
+
+CREATE TABLE Track_Card (
+  Track_id smallint PRIMARY KEY,
+  Card_id smallint 
+);
+
+ALTER TABLE Track_Card
+ADD CONSTRAINT fk_Track_Card_Card FOREIGN KEY (card_id)
+REFERENCES Card (Card_id)
+ON UPDATE CASCADE
+ON DELETE CASCADE;
+
+CREATE TABLE Player (
+  player_id smallint PRIMARY KEY,
+  player_name VARCHAR(50) NOT NULL UNIQUE
+);
+
+CREATE TABLE Player_Cards (
+  player_Cards_id smallint PRIMARY KEY,
+  player_id smallint,
+  card_id smallint
+);
+
+ALTER TABLE Player_Cards
+ADD CONSTRAINT fk_Player_Cards_Player FOREIGN KEY (player_id)
+REFERENCES Player (player_id)
+ON UPDATE CASCADE
+ON DELETE CASCADE;
+
+ALTER TABLE Player_Cards
+ADD CONSTRAINT fk_Player_Cards_Cards FOREIGN KEY (card_id)
+REFERENCES Card (card_id)
+ON UPDATE CASCADE
+ON DELETE CASCADE;
+
